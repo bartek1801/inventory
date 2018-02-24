@@ -23,39 +23,37 @@ public class PurchaseHandler {
 
     @Transactional
     public PurchaseAbstractDto handle(PurchaseCommand command) {
-        checkSkuCodesCorrectness(command.getProducts());
         Map<String, Integer> products = command.getProducts();
-        Map<String, Integer> incorrectProducts = getProductsWithCorrectAmount(products);
-
-        if (incorrectProducts.size() == 0){
-            products = saveProducts(products);
+        checkSkuCodesCorrectness(products);
+        Map<String, Integer> incorrectProducts = getProductsWithIncorrectAmount(products);
+        if (areNotIncorrectProducts(incorrectProducts)) {
+            saveProducts(products);
             return new PurchaseCompleteDto(true, products);
-        }
-        else
-            return new PurchaseNotValidDto(false,incorrectProducts);
+        } else
+            return new PurchaseNotValidDto(false, incorrectProducts);
+    }
+
+    private boolean areNotIncorrectProducts(Map<String, Integer> incorrectProducts) {
+        return incorrectProducts.size() == 0;
     }
 
 
-
-    private Map<String, Integer>saveProducts(Map<String, Integer> products) {
+    private void saveProducts(Map<String, Integer> products) {
         Map<String, Integer> savedProducts = new HashMap<>();
         for (Map.Entry<String, Integer> item : products.entrySet()) {
-            Optional<Product> product = productRepository.getBySkuCode(item.getKey()).stream().findFirst();
-            product.get().sustractAmount(item.getValue());
-            productRepository.save(product.get());
+            Product product = productRepository.getBySkuCode(item.getKey()).stream().findFirst().get();
+            product.sustractAmount(item.getValue());
+            productRepository.save(product);
             savedProducts.put(item.getKey(), item.getValue());
         }
-        return savedProducts;
     }
 
-    private Map<String, Integer> getProductsWithCorrectAmount(Map<String, Integer> products) {
+    private Map<String, Integer> getProductsWithIncorrectAmount(Map<String, Integer> products) {
         Map<String, Integer> incorrectProducts = new HashMap<>();
         for (Map.Entry<String, Integer> item : products.entrySet()) {
-            Optional<Product> product = productRepository.getBySkuCode(item.getKey()).stream().findFirst();
-
-            if (item.getValue() > product.get().getAmount())
+            Product product = productRepository.getBySkuCode(item.getKey()).stream().findFirst().get();
+            if (item.getValue() > product.getAmount())
                 incorrectProducts.put(item.getKey(), item.getValue());
-
         }
         return incorrectProducts;
     }

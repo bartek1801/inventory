@@ -27,9 +27,8 @@ public class AddProductCommand implements Validatable {
 
     @Override
     public void validate(ValidationErrors errors) {
-        //TODO validacja
         validatePresenceOf(skuCode, "skuCode", errors);
-        validatePresenceOf(amount, "amount", errors); // amount na potrzeby testu
+        validatePresenceOf(amount, "amount", errors);
         if (amount != null && (amount < 0 || amount > 999))
             errors.add("amount","must be between 1 and 999");
     }

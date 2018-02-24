@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.RestController;
 import pl.com.bottega.inventory.api.AddProductHandler;
 import pl.com.bottega.inventory.api.PurchaseAbstractDto;
 import pl.com.bottega.inventory.api.PurchaseHandler;
-import pl.com.bottega.inventory.api.PurchaseSummaryDto;
 import pl.com.bottega.inventory.domain.commands.AddProductCommand;
 import pl.com.bottega.inventory.domain.commands.PurchaseCommand;
 
