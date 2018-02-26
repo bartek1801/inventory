@@ -71,6 +71,6 @@ public class PurchaseHandler {
     }
 
     private boolean checkSkuCodeExisting(String skuCode) {
-        return productRepository.getBySkuCode(skuCode).isEmpty();
+        return productRepository.findById(skuCode) == null;
     }
 }
