@@ -10,9 +10,6 @@ import javax.persistence.Table;
 public class Product {
 
     @Id
-    @GeneratedValue
-    private Long id;
-
     private String skuCode;
 
     private Integer amount;
@@ -25,13 +22,7 @@ public class Product {
         this.amount = amount;
     }
 
-    public String getSkuCode() {
-        return skuCode;
-    }
 
-    public void setSkuCode(String skuCode) {
-        this.skuCode = skuCode;
-    }
 
     public Integer getAmount() {
         return amount;

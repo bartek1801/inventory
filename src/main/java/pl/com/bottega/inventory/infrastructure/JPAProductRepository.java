@@ -28,4 +28,9 @@ public class JPAProductRepository implements ProductRepository {
         query.setParameter("skuCode", skuCode);
         return (List<Product>) query.getResultList();
     }
+
+    @Override
+    public Product findById(String skuCode) {
+        return entityManager.find(Product.class, skuCode);
+    }
 }

@@ -10,5 +10,7 @@ public interface ProductRepository {
 
     List<Product> getBySkuCode(String skuCode);
 
+    Product findById(String skuCode);
+
 
 }

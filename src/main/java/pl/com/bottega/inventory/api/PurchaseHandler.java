@@ -41,7 +41,7 @@ public class PurchaseHandler {
     private void saveProducts(Map<String, Integer> products) {
         Map<String, Integer> savedProducts = new HashMap<>();
         for (Map.Entry<String, Integer> item : products.entrySet()) {
-            Product product = productRepository.getBySkuCode(item.getKey()).stream().findFirst().get();
+            Product product = productRepository.findById(item.getKey());
             product.sustractAmount(item.getValue());
             productRepository.save(product);
             savedProducts.put(item.getKey(), item.getValue());
@@ -51,7 +51,7 @@ public class PurchaseHandler {
     private Map<String, Integer> getProductsWithIncorrectAmount(Map<String, Integer> products) {
         Map<String, Integer> incorrectProducts = new HashMap<>();
         for (Map.Entry<String, Integer> item : products.entrySet()) {
-            Product product = productRepository.getBySkuCode(item.getKey()).stream().findFirst().get();
+            Product product = productRepository.findById(item.getKey());
             if (item.getValue() > product.getAmount())
                 incorrectProducts.put(item.getKey(), item.getValue());
         }
