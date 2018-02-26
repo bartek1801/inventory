@@ -1,6 +1,7 @@
 package pl.com.bottega.inventory.functionalProgramming;
 
 import org.junit.Test;
+import pl.com.bottega.inventory.extraPackage.functionalProgramming.FunList;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
 

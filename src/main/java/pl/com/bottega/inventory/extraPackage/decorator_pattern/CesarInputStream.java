@@ -1,4 +1,4 @@
-package pl.com.bottega.inventory.decorator_pattern;
+package pl.com.bottega.inventory.extraPackage.decorator_pattern;
 
 import java.io.IOException;
 import java.io.InputStream;
