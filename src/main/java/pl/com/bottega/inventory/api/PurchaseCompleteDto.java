@@ -1,9 +1,8 @@
 package pl.com.bottega.inventory.api;
 
-import java.util.HashMap;
 import java.util.Map;
 
-public class PurchaseCompleteDto extends PurchaseAbstractDto {
+public class PurchaseCompleteDto extends PurchaseDto {
 
     private Map<String, Integer> purchasedProducts ;
 

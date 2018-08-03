@@ -1,9 +1,8 @@
 package pl.com.bottega.inventory.api;
 
-import java.util.HashMap;
 import java.util.Map;
 
-public class PurchaseNotValidDto extends PurchaseAbstractDto {
+public class PurchaseNotValidDto extends PurchaseDto {
 
     private Map<String, Integer> missingProducts ;
 

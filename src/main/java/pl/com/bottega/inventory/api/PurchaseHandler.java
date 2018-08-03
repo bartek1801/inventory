@@ -10,7 +10,6 @@ import pl.com.bottega.inventory.domain.repositories.ProductRepository;
 import javax.transaction.Transactional;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 @Component
 public class PurchaseHandler {
@@ -22,19 +21,20 @@ public class PurchaseHandler {
     }
 
     @Transactional
-    public PurchaseAbstractDto handle(PurchaseCommand command) {
+    public PurchaseDto handle(PurchaseCommand command) {
         Map<String, Integer> products = command.getProducts();
         checkSkuCodesCorrectness(products);
         Map<String, Integer> incorrectProducts = getProductsWithIncorrectAmount(products);
-        if (areNotIncorrectProducts(incorrectProducts)) {
-            saveProducts(products);
-            return new PurchaseCompleteDto(true, products);
-        } else
+        if (areIncorrectProducts(incorrectProducts)) {
             return new PurchaseNotValidDto(false, incorrectProducts);
+        }
+        saveProducts(products);
+        return new PurchaseCompleteDto(true, products);
     }
+    //TODO ograniczyc odpytywanie bazy
 
-    private boolean areNotIncorrectProducts(Map<String, Integer> incorrectProducts) {
-        return incorrectProducts.size() == 0;
+    private boolean areIncorrectProducts(Map<String, Integer> incorrectProducts) {
+        return incorrectProducts.size() != 0;
     }
 
 
@@ -61,11 +61,11 @@ public class PurchaseHandler {
 
     private void checkSkuCodesCorrectness(Map<String, Integer> products) {
         Validatable.ValidationErrors errors = new Validatable.ValidationErrors();
-        for (Map.Entry<String, Integer> product : products.entrySet()) {
-            if (checkSkuCodeExisting(product.getKey())) {
-                errors.add(product.getKey(), "no such sku");
-            }
-        }
+        products.keySet()
+                .forEach(skuCode -> {
+                    if (checkSkuCodeExisting(skuCode))
+                        errors.add(skuCode, "no such sku");
+                });
         if (!errors.isValid())
             throw new InvalidCommandException(errors);
     }

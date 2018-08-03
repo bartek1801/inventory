@@ -1,14 +1,14 @@
 package pl.com.bottega.inventory.api;
 
-public class PurchaseAbstractDto {
+public class PurchaseDto {
 
     private boolean success;
 
-    public PurchaseAbstractDto(boolean success) {
+    public PurchaseDto(boolean success) {
         this.success = success;
     }
 
-    public PurchaseAbstractDto() {
+    public PurchaseDto() {
     }
 
     public boolean isSuccess() {

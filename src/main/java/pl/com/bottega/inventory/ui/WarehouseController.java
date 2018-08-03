@@ -4,7 +4,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import pl.com.bottega.inventory.api.AddProductHandler;
-import pl.com.bottega.inventory.api.PurchaseAbstractDto;
+import pl.com.bottega.inventory.api.PurchaseDto;
 import pl.com.bottega.inventory.api.PurchaseHandler;
 import pl.com.bottega.inventory.domain.commands.AddProductCommand;
 import pl.com.bottega.inventory.domain.commands.PurchaseCommand;
@@ -30,7 +30,7 @@ public class WarehouseController {
     }
 
     @PostMapping("/purchase")
-    public PurchaseAbstractDto purchase(@RequestBody Map<String, Integer> map){ //@RequestBody Map<String, Integer> map
+    public PurchaseDto purchase(@RequestBody Map<String, Integer> map) { //@RequestBody Map<String, Integer> map
         PurchaseCommand command = new PurchaseCommand(map);
         return purchaseHandler.handle(command);
     }
