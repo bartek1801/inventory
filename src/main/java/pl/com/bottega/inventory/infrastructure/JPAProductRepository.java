@@ -5,8 +5,6 @@ import pl.com.bottega.inventory.domain.Product;
 import pl.com.bottega.inventory.domain.repositories.ProductRepository;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
-import java.util.List;
 
 @Component
 public class JPAProductRepository implements ProductRepository {
@@ -20,13 +18,6 @@ public class JPAProductRepository implements ProductRepository {
     @Override
     public void save(Product product) {
         entityManager.persist(product);
-    }
-
-    @Override
-    public List<Product> getBySkuCode(String skuCode) {
-        Query query = entityManager.createQuery("SELECT p FROM Product p WHERE p.skuCode = :skuCode");
-        query.setParameter("skuCode", skuCode);
-        return (List<Product>) query.getResultList();
     }
 
     @Override
