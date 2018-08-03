@@ -5,6 +5,7 @@ import pl.com.bottega.inventory.domain.Product;
 import pl.com.bottega.inventory.domain.repositories.ProductRepository;
 
 import javax.persistence.EntityManager;
+import java.util.Optional;
 
 @Component
 public class JPAProductRepository implements ProductRepository {
@@ -21,7 +22,12 @@ public class JPAProductRepository implements ProductRepository {
     }
 
     @Override
-    public Product findById(String skuCode) {
+    public Product getById(String skuCode) {
         return entityManager.find(Product.class, skuCode);
+    }
+
+    @Override
+    public Optional<Product> findById(String skuCode) {
+        return Optional.ofNullable(entityManager.find(Product.class, skuCode));
     }
 }

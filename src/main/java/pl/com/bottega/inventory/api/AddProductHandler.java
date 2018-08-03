@@ -6,7 +6,6 @@ import pl.com.bottega.inventory.domain.commands.AddProductCommand;
 import pl.com.bottega.inventory.domain.repositories.ProductRepository;
 
 import javax.transaction.Transactional;
-import java.util.Optional;
 
 @Component
 public class AddProductHandler {
@@ -19,13 +18,9 @@ public class AddProductHandler {
 
     @Transactional
     public void handle(AddProductCommand command) {
-        Product product = productRepository.findById(command.getSkuCode());
-        if (product == null) {
-            Product newProduct = new Product(command.getSkuCode(), command.getAmount());
-            productRepository.save(newProduct);
-        } else {
-            product.sumAmount(command.getAmount());
-            productRepository.save(product);
-        }
+        Product product = productRepository.findById(command.getSkuCode())
+                .map(prod -> prod.sumAmount(command.getAmount()))
+                .orElseGet(() -> new Product(command.getSkuCode(), command.getAmount()));
+        productRepository.save(product);
     }
 }

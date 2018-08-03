@@ -1,7 +1,6 @@
 package pl.com.bottega.inventory.domain;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -36,7 +35,8 @@ public class Product {
         this.amount -= value;
     }
 
-    public void sumAmount(Integer value) {
+    public Product sumAmount(Integer value) {
         this.amount += value;
+        return this;
     }
 }
