@@ -47,7 +47,7 @@ public class PurchaseHandler {
     }
 
     private boolean areIncorrectProducts(Map<String, Integer> incorrectProducts) {
-        return incorrectProducts.size() != 0;
+        return !incorrectProducts.isEmpty();
     }
 
 
