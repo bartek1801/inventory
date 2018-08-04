@@ -21,7 +21,13 @@ public class Product {
         this.amount = amount;
     }
 
+    public String getSkuCode() {
+        return skuCode;
+    }
 
+    public void setSkuCode(String skuCode) {
+        this.skuCode = skuCode;
+    }
 
     public Integer getAmount() {
         return amount;
