@@ -1,5 +1,7 @@
 package pl.com.bottega.inventory.api;
 
+import io.vavr.Tuple;
+import io.vavr.Tuple2;
 import org.springframework.stereotype.Component;
 import pl.com.bottega.inventory.domain.Product;
 import pl.com.bottega.inventory.domain.commands.InvalidCommandException;
@@ -8,7 +10,10 @@ import pl.com.bottega.inventory.domain.commands.Validatable;
 import pl.com.bottega.inventory.domain.repositories.ProductRepository;
 
 import javax.transaction.Transactional;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
@@ -55,19 +60,10 @@ public class PurchaseHandler {
     }
 
     private Map<String, Integer> getProductsWithIncorrectAmount(Map<String, Integer> products, List<Product> productsFromRepo) {
-        Map<String, Integer> incorrectProducts = new HashMap<>();
-//
-//        productsFromRepo.stream()
-//                .filter(product -> product.getAmount() < products.get(product.getSkuCode()))
-//                .collect(Collectors.toMap(Product::getSkuCode, products.get());
-        //TODO przerobić na mape gdze kluczem jest skuCode a wartoscia zly amount
-
-        for (Map.Entry<String, Integer> item : products.entrySet()) {
-            Product product = productRepository.getById(item.getKey());
-            if (item.getValue() > product.getAmount())
-                incorrectProducts.put(item.getKey(), item.getValue());
-        }
-        return incorrectProducts;
+        return productsFromRepo.stream()
+                .filter(product -> product.getAmount() < products.get(product.getSkuCode()))
+                .map(prFromRepo -> Tuple.of(prFromRepo.getSkuCode(), products.get(prFromRepo.getSkuCode())))
+                .collect(Collectors.toMap(Tuple2::_1, Tuple2::_2));
     }
 
 
